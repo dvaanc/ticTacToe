@@ -26,12 +26,18 @@ const gameBoard = (() => {
 const ui = (() => {
   // cache dom
   const cellsEl = document.querySelectorAll(".cell");
+    // cellsEl.forEach(cell => {
+    //   cell.addEventListener("click", )
+    // })
   const restartEl = document.querySelector("#restart");
   const messageEl = document.querySelector(".message");
   // set message
   // update cell on player click
-  // reset all cells to ""
+  const updateCell = () => {
 
+  }
+  // reset all cells to ""
+  return { updateCell }
 
 })();
 
