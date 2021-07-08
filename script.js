@@ -1,7 +1,7 @@
 'use strict';
 //player handler 
-const player = (side) => {
-  this.side = side;
+const player = (mark) => {
+  this.mark = mark;
   const getSide = () => side;
 
   return { getSide };
@@ -15,7 +15,7 @@ const gameBoard = (() => {
    "", "", ""];
   
   const resetBoard = () => {
-    for(elem in _board) board[elem] = "";
+    for(const elem in _board) return _board[elem] = "";
   };
     
   return { resetBoard };
@@ -23,21 +23,37 @@ const gameBoard = (() => {
 
 
 // dom handler
-const ui = (() => {
+const display = (() => {
   // cache dom
   const cellsEl = document.querySelectorAll(".cell");
-    // cellsEl.forEach(cell => {
-    //   cell.addEventListener("click", )
-    // })
-  const restartEl = document.querySelector("#restart");
+  const restartButtonEl = document.querySelector("#restart");
   const messageEl = document.querySelector(".message");
+
+
   // set message
+
   // update cell on player click
-  const updateCell = () => {
+  cellsEl.forEach(cell => {
+    cell.addEventListener("click", )
+  })
+  const _updateCell = () => {
 
   }
-  // reset all cells to ""
-  return { updateCell }
+  // reset all cells to "" + gameBoard
+  restartButtonEl.addEventListener("click", () => {
+    _restart();
+  });
+
+  const _restart = () => {
+    gameBoard.resetBoard();
+    _clearCellContent();
+}
+
+  const _clearCellContent = () => {
+    cellsEl.forEach(cell => cell.innerText = "")
+  }
+
+  return {  };
 
 })();
 
@@ -48,4 +64,16 @@ const game = (() => {
   const player1 = player("X");
   const player2 = player("O");
 
+
+  const winCon = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+  return {  };
 })();

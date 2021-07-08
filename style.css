@@ -10,8 +10,8 @@ body {
   padding: 10px;
   margin: 0 auto;
   border: 1px solid black;
-  background-color: lightslategray;
   font-family: Roboto;
+  text-align: center;
 }
 
 header {
@@ -29,10 +29,10 @@ header {
   flex-wrap: wrap;
   flex-direction: row;
   margin: 0 auto;
-  margin-bottom: 5vh;
+  margin-bottom: 50px;
+  margin-top: 50px;
   width: 482px;
   height: 480px;
-  border: 1px solid;
   font-size: 6rem;
   font-weight: 800;
 }
@@ -47,6 +47,38 @@ header {
   cursor: pointer;
 }
 
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3) {
+  border-top: none;
+}
+
+.cell:nth-child(3n + 1) {
+  border-left: none;
+}
+
+.cell:nth-child(3n + 3) {
+  border-right: none;
+}
+
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7) {
+  border-bottom: none;
+}
+
 .cell:hover {
   background-color: lightsteelblue;
+}
+
+#restart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 150px;
+  height: 75px;
+  border: none;
+  font-size: 2rem;
+  text-transform: uppercase;
 }
