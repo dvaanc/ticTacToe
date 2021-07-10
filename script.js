@@ -13,13 +13,17 @@ const gameBoard = (() => {
   ["", "", "",
    "", "", "",
    "", "", ""];
-  
+
+  const fillBoard = (cellIndex, side) => {
+   if(_board[cellIndex] !== "") return; 
+    _board[cellIndex] = side;
+  }
 
   const resetBoard = () => {
-    for(const elem in _board) return _board[elem] = "";
+    for(const elem in _board) _board[elem] = "";
   };
     
-  return { resetBoard };
+  return { resetBoard, fillBoard, _board };
 })();
 
 
@@ -32,40 +36,42 @@ const display = (() => {
 
 
   // set message
+  const setMessage = (text) => {
+    messageEl.textContent = text;
+  }
 
   // update cell on player click
   cellsEl.forEach(cell => {
-    cell.addEventListener("click", (e) => {
-
+    cell.addEventListener("click", () => {
+      const cellIndex = cell.dataset.index;
+      game.playRound(cellIndex);
+      console.log(gameBoard._board)
     })
   })
-  const _updateCell = (e) => {
-    
-  }
-  // reset all cells to "" + gameBoard
+
+
+
   restartButtonEl.addEventListener("click", () => {
     gameBoard.resetBoard();
-    _clearCellContent();
+    cellsEl.forEach(cell => cell.innerText = "");
+    console.log(gameBoard._board)
   });
 
-  const _clearCellContent = () => {
-    cellsEl.forEach(cell => cell.innerText = "")
-  }
-
-  return {  };
+  return { setMessage  };
 
 })();
 
-
+ 
 
 // game logic
 const game = (() => {
   const player1 = player("X");
   const player2 = player("O");
- 
+  let playerX = true;
 
-  const _playRound = () => {
-    
+  const playRound = (cellIndex) => {
+    gameBoard.fillBoard(cellIndex, currentPlayerSide());
+
   }
   
   //check if player has won
@@ -83,18 +89,18 @@ const game = (() => {
   }
 
   const currentPlayerSide = () => {
-    let playerX = true;
+ 
     switch (playerX) {
       case true:
         playerX = false;
-        return console.log(player1.getSide());
+        return player1.getSide();
         break;
       case false:
         playerX = true;
-        return console.log(player2.getSide());
+        return player2.getSide();
     }
   }
   
-  return {    };
+  return { playRound };
 })();
 
