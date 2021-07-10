@@ -1,12 +1,11 @@
 'use strict';
-//player handler 
-const player = (side) => {
+
+const playerFactory = (side) => {
   this.side = side;
   const getSide = () => side;
 
   return { getSide };
 }
-
 
 const gameBoard = (() => {
   const _board = 
@@ -26,21 +25,15 @@ const gameBoard = (() => {
   return { resetBoard, fillBoard, _board };
 })();
 
-
-// dom handler
 const display = (() => {
-  // cache dom
   const cellsEl = document.querySelectorAll(".cell");
   const restartButtonEl = document.querySelector("#restart");
   const messageEl = document.querySelector(".message");
 
-
-  // set message
   const setMessage = (text) => {
     messageEl.textContent = text;
   }
 
-  // update cell on player click
   cellsEl.forEach(cell => {
     cell.addEventListener("click", () => {
       const cellIndex = cell.dataset.index;
@@ -49,32 +42,25 @@ const display = (() => {
     })
   })
 
-
-
   restartButtonEl.addEventListener("click", () => {
     gameBoard.resetBoard();
     cellsEl.forEach(cell => cell.innerText = "");
     console.log(gameBoard._board)
   });
-
-  return { setMessage  };
-
+    return { setMessage  };
 })();
 
- 
 
-// game logic
 const game = (() => {
-  const player1 = player("X");
-  const player2 = player("O");
-  let playerX = true;
-
+  const playerX = playerFactory("X");
+  const playerO = playerFactory("O");
+  let round = 1;
   const playRound = (cellIndex) => {
-    gameBoard.fillBoard(cellIndex, currentPlayerSide());
+    gameBoard.fillBoard(cellIndex, playerTurn());
 
   }
   
-  //check if player has won
+  
   const checkWinCon = () => {
     const winCon = [
       [0, 1, 2],
@@ -88,19 +74,15 @@ const game = (() => {
     ];
   }
 
-  const currentPlayerSide = () => {
- 
-    switch (playerX) {
-      case true:
-        playerX = false;
-        return player1.getSide();
-        break;
-      case false:
-        playerX = true;
-        return player2.getSide();
+  const playerTurn = () => {
+    round % 2 === 0 ? playerX.getSide() : playerO.getSide();
+    round++;
     }
-  }
   
-  return { playRound };
+  
+  return { playRound, playerTurn };
 })();
+
+console.log(game.playerTurn())
+
 
