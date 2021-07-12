@@ -13,23 +13,23 @@ const gameBoard = (() => {
    "", "", "",
    "", "", ""];
 
-  const fillBoard = (cellIndex, side) => {
+  const pushIndex = (cellIndex, playerTurn) => {
    if(_board[cellIndex] !== "") return; 
-    _board[cellIndex] = side;
+    _board[cellIndex] = playerTurn;
   }
 
   const resetBoard = () => {
     for(const elem in _board) _board[elem] = "";
   };
     
-  return { resetBoard, fillBoard, _board };
+  return { resetBoard, pushIndex, _board};
 })();
 
 const display = (() => {
   const cellsEl = document.querySelectorAll(".cell");
   const restartButtonEl = document.querySelector("#restart");
-  const messageEl = document.querySelector(".message");
-
+  const messageEl = document.querySelector("#message");
+  
   const setMessage = (text) => {
     messageEl.textContent = text;
   }
@@ -37,17 +37,21 @@ const display = (() => {
   cellsEl.forEach(cell => {
     cell.addEventListener("click", () => {
       const cellIndex = cell.dataset.index;
-      game.playRound(cellIndex);
-      console.log(gameBoard._board)
-    })
+      if(cell.textContent !== "") return;
+      cell.textContent = game.playerTurn()
+      game.playGame(cellIndex);
+
+    });
   })
 
   restartButtonEl.addEventListener("click", () => {
-    gameBoard.resetBoard();
-    cellsEl.forEach(cell => cell.innerText = "");
-    console.log(gameBoard._board)
+    game.resetGame();
+    clearCellContent();
   });
-    return { setMessage  };
+
+  const clearCellContent = () => cellsEl.forEach(cell => cell.innerText = "");
+
+    return { setMessage, clearCellContent };
 })();
 
 
@@ -55,13 +59,23 @@ const game = (() => {
   const playerX = playerFactory("X");
   const playerO = playerFactory("O");
   let round = 1;
-  const playRound = (cellIndex) => {
-    gameBoard.fillBoard(cellIndex, playerTurn());
 
+  const playGame = (cellIndex) => {
+    if(round === 9) {
+      resetGame();
+      display.setMessage("Draw!");
+      round = 1;
+      return;
+    }
+    gameBoard.pushIndex(cellIndex, playerTurn());
+    round++;
+    display.setMessage(`Player ${playerTurn()}'s turn!`);
+    
   }
   
-  
   const checkWinCon = () => {
+    // On playRound, parse playerTurn and check if _board 
+    // matches a winning combination 3 times in a row
     const winCon = [
       [0, 1, 2],
       [3, 4, 5],
@@ -72,17 +86,28 @@ const game = (() => {
       [0, 4, 8],
       [2, 4, 6]
     ];
+
+    winCon.forEach((winCombo) => {
+      
+    })
   }
 
-  const playerTurn = () => {
-    round % 2 === 0 ? playerX.getSide() : playerO.getSide();
-    round++;
+  const resetGame = () => {
+    round = 1; 
+    gameBoard.resetBoard();
     }
   
-  
-  return { playRound, playerTurn };
+  const playerTurn = () => {
+    return round % 2 === 1 ? playerX.getSide() : playerO.getSide();
+  }
+
+  console.log(playerX.getSide())
+  console.log(playerTurn())
+  return { playGame, playerTurn, resetGame };
 })();
 
-console.log(game.playerTurn())
+
+
+
 
 
