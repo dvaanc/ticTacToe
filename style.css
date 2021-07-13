@@ -11,7 +11,6 @@ body {
   margin: 0 auto;
   border: 1px solid black;
   font-family: Roboto;
-  text-align: center;
 }
 
 header {
@@ -24,6 +23,14 @@ header {
   
 }
 
+.container  {
+  display: flex;
+}
+
+.container:first-child {
+  position: relative;
+  left: 20%;
+}
 .gameBoard {
   display: flex;
   flex-wrap: wrap;
@@ -82,3 +89,38 @@ header {
   font-size: 2rem;
   text-transform: uppercase;
 }
+
+.modal-container {
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  transition: opacity 0.2s ease;
+}
+
+.modal-container.hide {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 15px 20px;
+  width: 250px;
+  max-width: 100%;
+  font-size: 18px;
+  font-weight: bold;
+}
+  input[type=text] {
+    padding: 10px;
+    margin: 10px;
+    font-size: 1rem;
+  }

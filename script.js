@@ -35,7 +35,21 @@ const display = (() => {
   const cellsEl = document.querySelectorAll(".cell");
   const restartButtonEl = document.querySelector("#restart");
   const messageEl = document.querySelector("#message");
-  
+  const p1 = document.querySelector("#p1");
+  const p2 = document.querySelector("#p2");
+  const form = document.querySelector("#playerNames");
+
+  form.onsubmit = () => {
+    const p1name = document.querySelector("#p1val").value;
+    const p2name = document.querySelector("#p2val").value;
+    setPlayer(p1name, p2name);
+    return false;
+  }
+
+  const setPlayer = (val1, val2) => {
+    p1.textContent += val1;
+    p2.textContent += val2;
+  }
   const setMessage = (text) => {
     messageEl.textContent = text;
   }
@@ -70,12 +84,7 @@ const game = (() => {
   let round = 1;
 
   const playGame = (cellIndex) => {
-    if(round === 9) {
-      resetGame();
-      display.setMessage("Draw!");
-      round = 1;
-      return;
-    }
+    if(drawGame()) return;
     gameBoard.pushIndex(cellIndex, playerTurn());
     console.log(checkWinCon())
     round++;
@@ -104,6 +113,15 @@ const game = (() => {
     round = 1; 
     gameBoard.resetBoard();
     }
+
+  const drawGame = () => {
+    if (round === 9) {
+      resetGame();
+      display.setMessage(`Draw!`)
+      display.clearCellContent();
+      return true;
+    }
+  }
   
   const playerTurn = () => {
     return round % 2 === 1 ? playerX.getSide() : playerO.getSide();
