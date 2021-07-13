@@ -4,7 +4,9 @@ const playerFactory = (side) => {
   this.side = side;
   const getSide = () => side;
 
-  return { getSide };
+  return { 
+    getSide 
+  };
 }
 
 const gameBoard = (() => {
@@ -22,7 +24,11 @@ const gameBoard = (() => {
     for(const elem in _board) _board[elem] = "";
   };
     
-  return { resetBoard, pushIndex, _board};
+  return { 
+    resetBoard, 
+    pushIndex, 
+    _board
+  };
 })();
 
 const display = (() => {
@@ -51,7 +57,10 @@ const display = (() => {
 
   const clearCellContent = () => cellsEl.forEach(cell => cell.innerText = "");
 
-    return { setMessage, clearCellContent };
+    return { 
+      setMessage, 
+      clearCellContent, 
+    };
 })();
 
 
@@ -68,14 +77,13 @@ const game = (() => {
       return;
     }
     gameBoard.pushIndex(cellIndex, playerTurn());
+    console.log(checkWinCon())
     round++;
     display.setMessage(`Player ${playerTurn()}'s turn!`);
     
   }
   
   const checkWinCon = () => {
-    // On playRound, parse playerTurn and check if _board 
-    // matches a winning combination 3 times in a row
     const winCon = [
       [0, 1, 2],
       [3, 4, 5],
@@ -86,10 +94,10 @@ const game = (() => {
       [0, 4, 8],
       [2, 4, 6]
     ];
-
-    winCon.forEach((winCombo) => {
-      
-    })
+    
+    return winCon.some(combination => {
+       return combination.every(index => gameBoard._board[index] === playerTurn());
+    });
   }
 
   const resetGame = () => {
@@ -101,9 +109,11 @@ const game = (() => {
     return round % 2 === 1 ? playerX.getSide() : playerO.getSide();
   }
 
-  console.log(playerX.getSide())
-  console.log(playerTurn())
-  return { playGame, playerTurn, resetGame };
+    return { 
+      playGame, 
+      playerTurn, 
+      resetGame 
+    };
 })();
 
 
